@@ -1,8 +1,12 @@
 import discord
 import random
-import os\
+import os
+import dotenv
+from dotenv.compat import to_env
 
-TOKEN = os.getenv("DISCORD_TOKEN")
+dotenv.load_dotenv()
+
+TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = '''NormTheNord's Bot Server'''
 
 client = discord.Client()
