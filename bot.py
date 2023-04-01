@@ -1,15 +1,20 @@
 import discord
 import random
 import os
-import dotenv
-from dotenv.compat import to_env
+from dotenv import load_dotenv
+# from dotenv.compat import to_env
 
-dotenv.load_dotenv()
+#dotenv.load_dotenv()
 
-TOKEN = os.getenv('DISCORD_TOKEN')
+# TOKEN = os.getenv('DISCORD_TOKEN')
+load_dotenv()
+TOKEN = os.getenv('TOKEN')
 GUILD = '''NormTheNord's Bot Server'''
 
-client = discord.Client()
+intents = discord.Intents.default()
+intents.message_content = True
+
+client = discord.Client(intents=intents)
 
 
 @client.event
