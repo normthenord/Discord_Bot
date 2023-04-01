@@ -39,6 +39,11 @@ async def on_message(message):
         return
 
     split = message.content.split(" ")
+
+    for word in split:
+        if word.lower() == "normthebot":
+            await message.channel.send(f"Hi, {message.author.name}! So Nice to meet you on this grand day!")
+
     if "NormTheBot" in message.content:
         await message.channel.send(f"Hi, {message.author.name}! So Nice to meet you on this grand day!")
 
