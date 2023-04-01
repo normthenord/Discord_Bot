@@ -36,7 +36,7 @@ async def on_message(message):
         await message.channel.send("""current commands:
                                     !roll (number)
                                     !ping
-                                    !xkcd""")
+                                    !xkcd or !comic""")
         return
     if message.content == "!roll":
         await message.channel.send(f'Rolling between 1 and 10: {random.randint(1,10)}')
@@ -44,7 +44,7 @@ async def on_message(message):
     if message.content == "!ping":
         await message.channel.send('pong!')
         return
-    if message.content == "!xkcd":
+    if message.content == "!xkcd" or message.content == "!comic":
         await message.channel.send(xkcd.getRandomComic().getImageLink())
 
     split = message.content.split(" ")
