@@ -34,13 +34,25 @@ async def roll(ctx, arg=10):
 async def ping(ctx):
     await ctx.send("pong")
 
-@bot.command(name="xkcd")
-async def comic(ctx):
-    await ctx.send(xkcd.getRandomComic().getImageLink())
+@bot.command(name="xkcd",
+             help="Posts a random xkcd comic. Can also provide a number for specific comic")
+async def comic(ctx, arg = None):
+    if arg == None:
+        await ctx.send(xkcd.getRandomComic().getImageLink())
+    elif int(arg) >= xkcd.getLatestComicNum():
+        await ctx.send(xkcd.getLatestComic().getImageLink())
+    elif int(arg) > 0 and int(arg) <= xkcd.getLatestComicNum():
+        await ctx.send(xkcd.getComic(int(arg)))
 
-@bot.command()
-async def comic(ctx):
-    await ctx.send(xkcd.getRandomComic().getImageLink())
+@bot.command(help="Posts a random xkcd comic. Can also provide a number for specific comic")
+async def comic(ctx, arg = None):
+    if arg == None:
+        await ctx.send(xkcd.getRandomComic().getImageLink())
+    elif int(arg) >= xkcd.getLatestComicNum():
+        await ctx.send(xkcd.getLatestComic().getImageLink())
+    elif int(arg) > 0 and int(arg) <= xkcd.getLatestComicNum():
+        await ctx.send(xkcd.getComic(int(arg)))
+    
 
 
 
