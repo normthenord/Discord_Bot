@@ -42,7 +42,7 @@ async def comic(ctx, arg = None):
     elif int(arg) >= xkcd.getLatestComicNum():
         await ctx.send(xkcd.getLatestComic().getImageLink())
     elif int(arg) > 0 and int(arg) <= xkcd.getLatestComicNum():
-        await ctx.send(xkcd.getComic(int(arg)))
+        await ctx.send(xkcd.getComic(int(arg)).getImageLink())
 
 @bot.command(help="Posts a random xkcd comic. Can also provide a number for specific comic")
 async def comic(ctx, arg = None):
@@ -51,7 +51,7 @@ async def comic(ctx, arg = None):
     elif int(arg) >= xkcd.getLatestComicNum():
         await ctx.send(xkcd.getLatestComic().getImageLink())
     elif int(arg) > 0 and int(arg) <= xkcd.getLatestComicNum():
-        await ctx.send(xkcd.getComic(int(arg)))
+        await ctx.send(xkcd.getComic(int(arg)).getImageLink())
     
 
 
