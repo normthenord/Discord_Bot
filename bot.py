@@ -34,6 +34,9 @@ async def on_message(message):
     if message.content == "!roll":
         await message.channel.send(f'Rolling between 1 and 10: {random.randint(1,10)}')
         return
+    if message.content == "!ping":
+        await message.channel.send('pong!')
+        return
 
     split = message.content.split(" ")
     if "NormTheBot" in message.content:
