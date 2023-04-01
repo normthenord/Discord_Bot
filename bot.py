@@ -2,6 +2,7 @@ import discord
 import random
 import os
 from dotenv import load_dotenv
+import xkcd
 # from dotenv.compat import to_env
 
 #dotenv.load_dotenv()
@@ -31,12 +32,20 @@ async def on_message(message):
     if message.author == client.user:
         print('Message from me')
         return
+    if message.content == "!commands":
+        await message.channel.send("""current commands:
+                                    !roll (number)
+                                    !ping
+                                    !xkcd""")
+        return
     if message.content == "!roll":
         await message.channel.send(f'Rolling between 1 and 10: {random.randint(1,10)}')
         return
     if message.content == "!ping":
         await message.channel.send('pong!')
         return
+    if message.content == "!xkcd":
+        await message.channel.send(xkcd.getRandomComic().getImageLink())
 
     split = message.content.split(" ")
 
@@ -44,8 +53,6 @@ async def on_message(message):
         if word.lower() == "normthebot":
             await message.channel.send(f"Hi, {message.author.name}! So Nice to meet you on this grand day!")
 
-    if "NormTheBot" in message.content:
-        await message.channel.send(f"Hi, {message.author.name}! So Nice to meet you on this grand day!")
 
     if split[0] == "!roll":
         if split[1].isdigit():
