@@ -1,18 +1,25 @@
 import balls
 
+
 import random
 import os
+import datetime
+import timeArray
 
 import xkcd
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
+
 
 from dotenv import load_dotenv
 load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
 GUILD = '''NormTheNord's Bot Server'''
+
+BOT_TEST_CHANNEL = 775081202805768223
+GENERAL_CHANNEL = 775071141253349409
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -74,20 +81,40 @@ async def ball(ctx):
     await ctx.send(balls.ball_answers[random.randint(1,int(len(balls.ball_answers)))])
 
 
+@tasks.loop(time = timeArray.times)
+async def comic_hour():
+    channel = bot.get_channel(BOT_TEST_CHANNEL)
+    comic = xkcd.getRandomComic()
+    await channel.send(f'{comic.getTitle()}\n')
+    await channel.send(comic.getImageLink())
+    await channel.send("Hourly comic post!")
+
+@tasks.loop(time =datetime.time(hour= 18, tzinfo=datetime.timezone.utc))
+async def comic_daily():
+    channel = bot.get_channel(GENERAL_CHANNEL)
+    comic = xkcd.getLatestComic()
+    await channel.send(f'{comic.getTitle()}\n')
+    await channel.send(comic.getImageLink())
+    await channel.send("Enjoy your daily comic!")
+
 
 @bot.event
 async def on_ready():
     for guild in bot.guilds:
         print(guild.name)
+    comic_hour.start()
+    comic_daily.start()
 
     print(f'{bot.user} has connected to Discord!')
 
 @bot.event
 async def on_message(message):
-    print("Receiving message")
     if message.author == bot.user:
         print('Message from me')
         return
+    
+    print("Receiving message")
+    
     
 
     if message.content.lower() == "bye":
