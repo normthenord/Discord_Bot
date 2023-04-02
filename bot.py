@@ -1,15 +1,14 @@
 import random
+import os
 
 import xkcd
 
 import discord
 from discord.ext import commands
-import os
-
 
 from dotenv import load_dotenv
-
 load_dotenv()
+
 TOKEN = os.getenv('TOKEN')
 GUILD = '''NormTheNord's Bot Server'''
 
@@ -38,32 +37,32 @@ async def ping(ctx):
              help="Posts a random xkcd comic. Can also provide a number for specific comic")
 async def comic(ctx, arg = None):
     if arg == None:
-        await ctx.send(xkcd.getRandomComic().getImageLink())
+        comic = xkcd.getRandomComic()
+        await ctx.send(f'{comic.getTitle()}\n')
+        await ctx.send(comic.getImageLink())
     elif int(arg) >= xkcd.getLatestComicNum():
+        await ctx.send(f'{xkcd.getLatestComic().getTitle()}\n'
         await ctx.send(xkcd.getLatestComic().getImageLink())
     elif int(arg) > 0 and int(arg) <= xkcd.getLatestComicNum():
+        await ctx.send(f'{xkcd.getComic(int(arg)).getTitle()}\n')
         await ctx.send(xkcd.getComic(int(arg)).getImageLink())
 
 @bot.command(help="Posts a random xkcd comic. Can also provide a number for specific comic")
 async def comic(ctx, arg = None):
     if arg == None:
-        await ctx.send(xkcd.getRandomComic().getImageLink())
+        comic = xkcd.getRandomComic()
+        await ctx.send(f'{comic.getTitle()}\n')
+        await ctx.send(comic.getImageLink())
     elif int(arg) >= xkcd.getLatestComicNum():
+        await ctx.send(f'{xkcd.getLatestComic().getTitle()}\n'
         await ctx.send(xkcd.getLatestComic().getImageLink())
     elif int(arg) > 0 and int(arg) <= xkcd.getLatestComicNum():
+        await ctx.send(f'{xkcd.getComic(int(arg)).getTitle()}\n')
         await ctx.send(xkcd.getComic(int(arg)).getImageLink())
     
 
 
 
-@bot.command()
-async def commands(ctx):
-    await ctx.send("""current commands:
-                                    !test {statement to be repeated}
-                                    !roll {number}
-                                    !ping
-                                    !xkcd or !comic
-                                    !hello""")
 
 @bot.command()
 async def hello(ctx):
