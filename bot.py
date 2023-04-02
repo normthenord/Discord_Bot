@@ -4,7 +4,6 @@ import balls
 import random
 import os
 import datetime
-import timeArray
 
 import xkcd
 
@@ -20,6 +19,8 @@ GUILD = '''NormTheNord's Bot Server'''
 
 BOT_TEST_CHANNEL = 775081202805768223
 GENERAL_CHANNEL = 775071141253349409
+
+EVERY_HOUR = [datetime.time(hour=i, tzinfo=datetime.timezone.utc) for i in range(24)]
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -81,7 +82,7 @@ async def ball(ctx):
     await ctx.send(balls.ball_answers[random.randint(1,int(len(balls.ball_answers)))])
 
 
-@tasks.loop(time = timeArray.times)
+@tasks.loop(time = EVERY_HOUR)
 async def comic_hour():
     channel = bot.get_channel(BOT_TEST_CHANNEL)
     comic = xkcd.getRandomComic()
