@@ -41,7 +41,7 @@ async def comic(ctx, arg = None):
         await ctx.send(f'{comic.getTitle()}\n')
         await ctx.send(comic.getImageLink())
     elif int(arg) >= xkcd.getLatestComicNum():
-        await ctx.send(f'{xkcd.getLatestComic().getTitle()}\n'
+        await ctx.send(f'{xkcd.getLatestComic().getTitle()}\n')
         await ctx.send(xkcd.getLatestComic().getImageLink())
     elif int(arg) > 0 and int(arg) <= xkcd.getLatestComicNum():
         await ctx.send(f'{xkcd.getComic(int(arg)).getTitle()}\n')
@@ -54,7 +54,7 @@ async def comic(ctx, arg = None):
         await ctx.send(f'{comic.getTitle()}\n')
         await ctx.send(comic.getImageLink())
     elif int(arg) >= xkcd.getLatestComicNum():
-        await ctx.send(f'{xkcd.getLatestComic().getTitle()}\n'
+        await ctx.send(f'{xkcd.getLatestComic().getTitle()}\n')
         await ctx.send(xkcd.getLatestComic().getImageLink())
     elif int(arg) > 0 and int(arg) <= xkcd.getLatestComicNum():
         await ctx.send(f'{xkcd.getComic(int(arg)).getTitle()}\n')
