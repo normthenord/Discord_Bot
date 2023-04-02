@@ -64,7 +64,7 @@ async def comic(ctx, arg = None):
 
 
 
-@bot.command()
+@bot.command(help="Responds hello")
 async def hello(ctx):
     await ctx.send(f'Hello, {ctx.message.author.name}')
 
