@@ -20,16 +20,16 @@ client = discord.Client(intents=intents)
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-@bot.command()
+@bot.command(help="Repeats given text")
 async def test(ctx, *args):
     arguments = ' '.join(args)
     await ctx.send(arguments)
 
-@bot.command()
+@bot.command(help="Returns a random number between 1 and number given (default 10)")
 async def roll(ctx, arg=10):
     await ctx.send(f'Rolling between 1 and {arg}: {random.randint(1,int(arg))}')
 
-@bot.command()
+@bot.command(help="Pongs")
 async def ping(ctx):
     await ctx.send("pong")
 
