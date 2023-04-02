@@ -1,3 +1,5 @@
+import balls
+
 import random
 import os
 
@@ -14,9 +16,6 @@ GUILD = '''NormTheNord's Bot Server'''
 
 intents = discord.Intents.default()
 intents.message_content = True
-
-client = discord.Client(intents=intents)
-
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
@@ -69,11 +68,16 @@ async def hello(ctx):
     await ctx.send(f'Hello, {ctx.message.author.name}')
 
 
+@bot.command(name="8ball",
+             help="Ask the magic 8 ball a question")
+async def ball(ctx):
+    await ctx.send(balls.ball_answers[random.randint(1,int(len(balls.ball_answers)))])
+
 
 
 @bot.event
 async def on_ready():
-    for guild in client.guilds:
+    for guild in bot.guilds:
         print(guild.name)
 
     print(f'{bot.user} has connected to Discord!')
@@ -81,7 +85,7 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     print("Receiving message")
-    if message.author == client.user:
+    if message.author == bot.user:
         print('Message from me')
         return
     
