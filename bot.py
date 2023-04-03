@@ -8,6 +8,8 @@ import datetime
 import xkcd
 
 import aiohttp
+import openai
+
 
 import discord
 from discord.ext import commands, tasks
@@ -26,15 +28,40 @@ GENERAL_CHANNEL = 775071141253349409
 
 EVERY_HOUR = [datetime.time(hour=i, tzinfo=datetime.timezone.utc) for i in range(24)]
 
+
+openai.api_key = GPT_KEY
+
+
+
+
 intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 
-####### gpt-3.5-turbo
+@bot.command(help="Get AI Generated image (1024*1024)")
+async def GPTImage(ctx:commands.Context, *, prompt: str):
+    
+    async with aiohttp.ClientSession() as session:
+        
+        async  with ctx.typing():
+            response = openai.Image.create(
+            prompt=prompt,
+            n=1,
+            size="1024x1024"
+            )
+            image_url = response['data'][0]['url']
+
+            await ctx.reply(image_url)
+
+
+
+##############Bot commands###################
+
+
 @bot.command(help="GPT 3.5 Turbo -- only works in gpt_bot")
-async def gpt(ctx: commands.Context, *, prompt: str):
+async def GPT(ctx: commands.Context, *, prompt: str):
     # if ctx.channel.id != 1092256153968332800:
     #     return
     async with aiohttp.ClientSession() as session:
@@ -69,40 +96,41 @@ async def gpt(ctx: commands.Context, *, prompt: str):
 
 
 # ### Davinci 3
-# @bot.command(help="Davinci 3")
-# async def gpt(ctx: commands.Context, *, prompt: str):
-    # async with aiohttp.ClientSession() as session:
-    #     payload = {
-    #         "model": "text-davinci-003",
-    #         "prompt": prompt,
-    #         "temperature": 0.5,
-    #         "max_tokens": 500,
-    #         "presence_penalty": 0,
-    #         "frequency_penalty": 0,
-    #         "best_of": 1,
+@bot.command(help="Davinci 3")
+async def Davinci(ctx: commands.Context, *, prompt: str):
+    async with aiohttp.ClientSession() as session:
+        payload = {
+            "model": "text-davinci-003",
+            "prompt": prompt,
+            "temperature": 0.5,
+            "max_tokens": 500,
+            "presence_penalty": 0,
+            "frequency_penalty": 0,
+            "best_of": 1,
 
-    #     }
-    #     headers = {"Authorization": f'Bearer {GPT_KEY}'}
-    #     async with session.post("https://api.openai.com/v1/completions", json=payload, headers=headers) as resp:
-    #         response = await resp.json()
-    #         embed = discord.Embed(title="Chat GPT's Response:",
-    #                               description=response["choices"][0]["text"])
-    #         await ctx.reply(embed = embed)
+        }
+        headers = {"Authorization": f'Bearer {GPT_KEY}'}
+        async with session.post("https://api.openai.com/v1/completions", json=payload, headers=headers) as resp:
+            async  with ctx.typing():
+                response = await resp.json()
+                embed = discord.Embed(title="Chat GPT's Response:",
+                                    description=response["choices"][0]["text"])
+                await ctx.reply(embed = embed)
 
 
 
 @bot.command(help="Repeats given text")
 async def test(ctx, *args):
     arguments = ' '.join(args)
-    await ctx.send(arguments)
+    await ctx.reply(arguments)
 
 @bot.command(help="Returns a random number between 1 and number given (default 10)")
 async def roll(ctx, arg=10):
-    await ctx.send(f'Rolling between 1 and {arg}: {random.randint(1,int(arg))}')
+    await ctx.reply(f'Rolling between 1 and {arg}: {random.randint(1,int(arg))}')
 
 @bot.command(help="Pongs")
 async def ping(ctx):
-    await ctx.send("pong")
+    await ctx.reply("pong")
 
 @bot.command(name="xkcd",
              help="Posts a random xkcd comic. Can also provide a number for specific comic")
@@ -140,8 +168,10 @@ async def hello(ctx):
 @bot.command(name="8ball",
              help="Ask the magic 8 ball a question")
 async def ball(ctx):
-    await ctx.send(balls.ball_answers[random.randint(1,int(len(balls.ball_answers)))])
+    await ctx.reply(balls.ball_answers[random.randint(1,int(len(balls.ball_answers)))])
 
+
+#############Looping Tasks#################
 
 @tasks.loop(time = EVERY_HOUR)
 async def comic_hour():
@@ -151,13 +181,15 @@ async def comic_hour():
     await channel.send(comic.getImageLink())
     await channel.send("Random hourly comic post!")
 
-@tasks.loop(time =datetime.time(hour= 18, tzinfo=datetime.timezone.utc))
+@tasks.loop(time =datetime.time(hour= 16, minute=0,tzinfo=datetime.timezone.utc))
 async def comic_daily():
     channel = bot.get_channel(GENERAL_CHANNEL)
     comic = xkcd.getLatestComic()
     await channel.send(f'{comic.getTitle()}\n')
     await channel.send(comic.getImageLink())
     await channel.send("Enjoy your daily comic!")
+
+
 
 
 @bot.event
