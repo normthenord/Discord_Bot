@@ -62,33 +62,32 @@ async def gpt(ctx: commands.Context, *, prompt: str):
         async  with ctx.typing():
             async with session.post("https://api.openai.com/v1/chat/completions", json=payload, headers=headers) as resp:
                 response = await resp.json()
-                embed = discord.Embed(title="Chat GPT's Response:",
-                                    description=response['choices'][0]['message']['content'])
+                # embed = discord.Embed(title="Chat GPT's Response:",
+                #                     description=response['choices'][0]['message']['content'])
                 await ctx.reply(response['choices'][0]['message']['content'])
-                # await ctx.reply(embed)
                 print("GPT total tokens: " + str(response['usage']['total_tokens']))
 
 
 # ### Davinci 3
 # @bot.command(help="Davinci 3")
 # async def gpt(ctx: commands.Context, *, prompt: str):
-    async with aiohttp.ClientSession() as session:
-        payload = {
-            "model": "text-davinci-003",
-            "prompt": prompt,
-            "temperature": 0.5,
-            "max_tokens": 500,
-            "presence_penalty": 0,
-            "frequency_penalty": 0,
-            "best_of": 1,
+    # async with aiohttp.ClientSession() as session:
+    #     payload = {
+    #         "model": "text-davinci-003",
+    #         "prompt": prompt,
+    #         "temperature": 0.5,
+    #         "max_tokens": 500,
+    #         "presence_penalty": 0,
+    #         "frequency_penalty": 0,
+    #         "best_of": 1,
 
-        }
-        headers = {"Authorization": f'Bearer {GPT_KEY}'}
-        async with session.post("https://api.openai.com/v1/completions", json=payload, headers=headers) as resp:
-            response = await resp.json()
-            embed = discord.Embed(title="Chat GPT's Response:",
-                                  description=response["choices"][0]["text"])
-            await ctx.reply(embed = embed)
+    #     }
+    #     headers = {"Authorization": f'Bearer {GPT_KEY}'}
+    #     async with session.post("https://api.openai.com/v1/completions", json=payload, headers=headers) as resp:
+    #         response = await resp.json()
+    #         embed = discord.Embed(title="Chat GPT's Response:",
+    #                               description=response["choices"][0]["text"])
+    #         await ctx.reply(embed = embed)
 
 
 
