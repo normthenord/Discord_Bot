@@ -19,10 +19,10 @@ class OpenAI(commands.Cog):
 
 
     @commands.command(help="GPT 3.5 Turbo")
-    async def GPT(self, ctx: commands.Context, *, prompt: str):
+    async def chat(self, ctx: commands.Context, *, prompt: str):
 
         if ctx.channel.id != 1092256153968332800:
-            ctx.reply("Must be in gpt_bot")
+            await ctx.reply("Must be in gpt_bot")
             return
         async with aiohttp.ClientSession() as session:
 
@@ -53,7 +53,6 @@ class OpenAI(commands.Cog):
             async  with ctx.typing():
                 async with session.post("https://api.openai.com/v1/chat/completions", json=self.payload, headers=self.headers) as resp:
                     self.response = await resp.json()
-                    print(self.response)
                     # embed = discord.Embed(title="Chat GPT's Response:",
                     #                     description=response['choices'][0]['message']['content'])
                     await ctx.reply(self.response['choices'][0]['message']['content'])
