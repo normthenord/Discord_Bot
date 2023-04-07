@@ -23,27 +23,25 @@ class OpenAI(commands.Cog):
             return
         async with aiohttp.ClientSession() as session:
 
-            self.conversation = [{"role": "system", "content": "I am a friendly chatbot"}]           
+            conversation = [{"role": "system", "content": "I am a friendly chatbot"}]           
             
-            self.prev_message = []
+            prev_message = list()
             async for msg in ctx.channel.history(limit=15):
-                if msg.content.startswith("!GPT ") == True and msg.author.id == ctx.author.id:
-                    self.prev_message.append({'role': 'user', 'content': msg.content[5:]})
-            self.prev_message.reverse()
-            for message in self.prev_message:
-                self.conversation.append(message)
-        
+                if msg.content.startswith("!chat ") == True and msg.author.id == ctx.author.id:
+                   prev_message.append({'role': 'user', 'content': msg.content[5:]})
 
+            prev_message.reverse()
+            for message in prev_message:
+                conversation.append(message)
+        
             self.payload = {
                 "model": "gpt-3.5-turbo",
-                "messages": self.conversation,
+                "messages": conversation,
                 "temperature": 0.5,
                 "max_tokens": 500,
                 "presence_penalty": 0,
                 "frequency_penalty": 0,
             }
-
-
 
             self.headers = {"Authorization": f'Bearer {GPT_KEY}'}
 
