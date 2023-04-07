@@ -1,10 +1,7 @@
 from discord.ext import commands
-
 import openai
 import aiohttp
-
 import os
-
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -22,7 +19,7 @@ class OpenAI(commands.Cog):
     async def chat(self, ctx: commands.Context, *, prompt: str):
 
         if ctx.channel.id != 1092256153968332800:
-            await ctx.reply("Must be in gpt_bot")
+            await ctx.reply("Must be in ai-chat channel to chat with bot")
             return
         async with aiohttp.ClientSession() as session:
 

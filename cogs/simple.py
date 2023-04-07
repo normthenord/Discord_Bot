@@ -16,7 +16,8 @@ class Simple(commands.Cog):
 
     @commands.command(help="Returns a random number between 1 and number given (default 10)")
     async def roll(self, ctx, arg=10):
-        await ctx.reply(f'Rolling between 1 and {arg}: {random.randint(1,int(arg))}')
+        # await ctx.reply(f'Rolling between 1 and {arg}: {random.randint(1,int(arg))}')
+        await ctx.reply(random.randint(1,int(arg)))
 
     @commands.command(help="Pongs")
     async def ping(self, ctx):
