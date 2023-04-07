@@ -17,7 +17,7 @@ class OpenAI(commands.Cog):
 
     @commands.command(help="GPT 3.5 Turbo")
     async def chat(self, ctx: commands.Context, *, prompt: str):
-
+        
         if ctx.channel.id != 1092256153968332800:
             await ctx.reply("Must be in ai-chat channel to chat with bot")
             return
