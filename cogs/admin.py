@@ -1,7 +1,11 @@
 from discord.ext import commands
-import discord
 
-import xkcd as xkcd_module
+
+def is_bot(msg):
+    return msg.author.bot
+
+def is_command(msg):
+    return msg.content.startswith("!")
 
 
 class Admin(commands.Cog):
@@ -17,8 +21,27 @@ class Admin(commands.Cog):
 
     @commands.command()
     @commands.check(commands.is_owner())
-    async def purge(self,ctx:commands.Context):
-        await ctx.channel.purge()
+    async def purge_bot(self,ctx:commands.Context):
+        await ctx.channel.purge(limit=100,check=is_bot)
+
+    @commands.command()
+    @commands.check(commands.is_owner())
+    async def purge_all(self,ctx:commands.Context):
+        await ctx.channel.purge(limit=100)
+
+    @commands.command()
+    @commands.check(commands.is_owner())
+    async def purge_commands(self,ctx:commands.Context):
+        await ctx.channel.purge(limit=100, check=is_command)
+
+    # @commands.command()
+    # @commands.check(commands.is_owner())
+    # async def delete_commands(self,ctx:commands.Context):
+    #     prev_message = list()
+    #     async for msg in ctx.channel.history(limit=15):
+    #         if msg.author.bot:
+    #             prev_message.append(msg)
+    #     await ctx.channel.delete_messages(prev_message)
 
 
 async def setup(bot):
