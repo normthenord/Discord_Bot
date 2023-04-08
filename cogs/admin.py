@@ -1,5 +1,6 @@
 from discord.ext import commands
 
+# from utils import
 
 def is_bot(msg):
     return msg.author.bot
@@ -21,27 +22,18 @@ class Admin(commands.Cog):
 
     @commands.command()
     @commands.check(commands.is_owner())
-    async def purge_bot(self,ctx:commands.Context):
-        await ctx.channel.purge(limit=100,check=is_bot)
+    async def purge_bot(self,ctx:commands.Context, arg:int = 100):
+        await ctx.channel.purge(limit=arg,check=is_bot)
 
     @commands.command()
     @commands.check(commands.is_owner())
-    async def purge_all(self,ctx:commands.Context):
-        await ctx.channel.purge(limit=100)
+    async def purge_all(self,ctx:commands.Context, arg:int = 100):
+        await ctx.channel.purge(limit=arg)
 
     @commands.command()
     @commands.check(commands.is_owner())
-    async def purge_commands(self,ctx:commands.Context):
-        await ctx.channel.purge(limit=100, check=is_command)
-
-    # @commands.command()
-    # @commands.check(commands.is_owner())
-    # async def delete_commands(self,ctx:commands.Context):
-    #     prev_message = list()
-    #     async for msg in ctx.channel.history(limit=15):
-    #         if msg.author.bot:
-    #             prev_message.append(msg)
-    #     await ctx.channel.delete_messages(prev_message)
+    async def purge_commands(self,ctx:commands.Context, arg:int = 100):
+        await ctx.channel.purge(limit=arg, check=is_command)
 
 
 async def setup(bot):

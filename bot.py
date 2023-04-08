@@ -1,5 +1,3 @@
-import balls
-
 import asyncio
 
 import random
