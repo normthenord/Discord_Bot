@@ -60,6 +60,17 @@ async def comic_daily():
 
 
 
+
+
+
+
+
+
+
+@bot.event
+async def on_command_error(ctx,error):
+    print(error)
+
 @bot.event
 async def on_ready():
     for guild in bot.guilds:
@@ -68,6 +79,11 @@ async def on_ready():
     comic_daily.start()
 
     print(f'{bot.user} has connected to Discord!')
+    try:
+        synced = await bot.tree.sync()
+        print(f'Synced {len(synced)} command(s)')
+    except Exception as e:
+        print(e)
 
 @bot.event
 async def on_message(message):
@@ -89,6 +105,13 @@ async def on_message(message):
             await message.channel.send(f"Hi, {message.author.name}! So Nice to meet you on this grand day!")
 
     await bot.process_commands(message)
+
+
+
+@bot.tree.command(name="hello")
+async def hello(interaction: discord.Interaction):
+    await interaction.response.send_message(f"Hey {interaction.user.mention}! This is your first slash command!", ephemeral=True)
+
 
 
 async def main():

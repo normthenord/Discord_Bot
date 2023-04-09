@@ -1,9 +1,8 @@
 from discord.ext import commands
 
-# from utils import
+import datetime
 
-def is_bot(msg):
-    return msg.author.bot
+
 
 def is_command(msg):
     return msg.content.startswith("!")
@@ -23,7 +22,7 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.check(commands.is_owner())
     async def purge_bot(self,ctx:commands.Context, arg:int = 100):
-        await ctx.channel.purge(limit=arg,check=is_bot)
+        await ctx.channel.purge(limit=arg,check=lambda msg: msg.author.bot)
 
     @commands.command()
     @commands.check(commands.is_owner())
@@ -33,7 +32,12 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.check(commands.is_owner())
     async def purge_commands(self,ctx:commands.Context, arg:int = 100):
-        await ctx.channel.purge(limit=arg, check=is_command)
+        await ctx.channel.purge(limit=arg, check=lambda msg: msg.content.startswith("!"))
+    
+    @commands.command()
+    @commands.check(commands.is_owner())
+    async def purge_hour(self,ctx:commands.Context):
+        await ctx.channel.purge(after=datetime.datetime.today()-datetime.timedelta(hours=1))
 
 
 async def setup(bot):
