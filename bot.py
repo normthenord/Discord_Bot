@@ -6,10 +6,6 @@ import datetime
 
 import xkcd
 
-import aiohttp
-import openai
-
-
 import discord
 from discord.ext import commands, tasks
 
