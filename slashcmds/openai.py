@@ -60,7 +60,7 @@ class AI(app_commands.Group):
 
     @app_commands.command(description="Get AI Generated image (1024*1024)")
     async def image(self, interaction: discord.Interaction, img_prompt: str):
-        await interaction.response.defer(ephemeral=True)
+        await interaction.response.defer()
 
         async with aiohttp.ClientSession() as session:
             
@@ -79,7 +79,7 @@ class AI(app_commands.Group):
 
     @app_commands.command(description="Davinci 3")
     async def davinci(self, interaction: discord.Interaction, prompt: str):
-        await interaction.response.defer(ephemeral=True)
+        await interaction.response.defer()
         async with aiohttp.ClientSession() as session:
             self.payload = {
                 "model": "text-davinci-003",
