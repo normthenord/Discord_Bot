@@ -37,7 +37,9 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.check(commands.is_owner())
     async def purge_hour(self,ctx:commands.Context):
-        await ctx.channel.purge(after=datetime.datetime.today()-datetime.timedelta(hours=1))
+        await ctx.channel.purge(
+            after=datetime.datetime.now() - datetime.timedelta(hours=1)
+        )
 
 
 async def setup(bot):

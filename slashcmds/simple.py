@@ -18,7 +18,7 @@ class Simple(app_commands.Group):
 
     @app_commands.command(description="Returns a random number between 1 and number given (default 10)")
     async def roll(self, interaction: discord.Interaction, num:int = 10):
-        await interaction.response.send_message(random.randint(1,int(num)))
+        await interaction.response.send_message(random.randint(1, num))
 
     @app_commands.command(description="Pongs")
     async def ping(self, interaction: discord.Interaction):
@@ -27,7 +27,11 @@ class Simple(app_commands.Group):
     @app_commands.command(name="8ball",
                           description="Ask the magic 8 ball a question")
     async def ball(self, interaction: discord.Interaction, question: str):
-        await interaction.response.send_message(balls.ball_answers[random.randint(1,int(len(balls.ball_answers)))], ephemeral=True, delete_after=60)
+        await interaction.response.send_message(
+            balls.ball_answers[random.randint(1, len(balls.ball_answers))],
+            ephemeral=True,
+            delete_after=60,
+        )
 
 
 

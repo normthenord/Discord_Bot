@@ -49,13 +49,13 @@ async def comic_hour():
     await channel.send("Random hourly comic post!")
 
 # @tasks.loop(time =datetime.time(hour= 16, minute=0,tzinfo=datetime.timezone.utc))
-@tasks.loop(time =datetime.time(hour= 21, minute=27,tzinfo=datetime.timezone.utc))
+@tasks.loop(time =datetime.time(hour= 16, minute=0,tzinfo=datetime.timezone.utc))
 async def comic_daily():
-    channel = bot.get_channel(GENERAL_CHANNEL)  
+    channel = bot.get_channel(GENERAL_CHANNEL)
     comic = xkcd.getLatestComic()
 
     link = comic.getImageLink()
-    prev_message = list()
+    prev_message = []
     async for msg in channel.history(limit=100):
         if msg.content == link:
             print("Already sent daily comic")
