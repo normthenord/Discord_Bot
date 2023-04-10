@@ -22,9 +22,9 @@ class Simple(commands.Cog):
     async def ping(self, ctx):
         await ctx.reply("pong")
 
-    @commands.command(help="Responds hello")
-    async def hello(self, ctx):
-        await ctx.send(f'Hello, {ctx.message.author.name}')
+    # @commands.command(help="Responds hello")
+    # async def hello(self, ctx):
+    #     await ctx.send(f'Hello, {ctx.message.author.name}')
 
 
     @commands.command(name="8ball",

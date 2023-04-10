@@ -33,10 +33,13 @@ intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 async def load_extensions():
-    for filename in os.listdir("./cogs"):
-        if filename.endswith(".py") and filename != "__init__.py":
-            await bot.load_extension(f'cogs.{filename[:-3]}')
+    # for filename in os.listdir("./cogs"):
+    #     if filename.endswith(".py") and filename != "__init__.py":
+    #         await bot.load_extension(f'cogs.{filename[:-3]}')
 
+    for filename in os.listdir("./slashcmds"):
+        if filename.endswith(".py") and filename != "__init__.py":
+            await bot.load_extension(f'slashcmds.{filename[:-3]}')
 
 
 #############Looping Tasks#################
@@ -56,15 +59,6 @@ async def comic_daily():
     await channel.send(f'{comic.getTitle()}\n')
     await channel.send(comic.getImageLink())
     await channel.send("Enjoy your daily comic!")
-
-
-
-
-
-
-
-
-
 
 
 @bot.event
@@ -105,12 +99,6 @@ async def on_message(message):
             await message.channel.send(f"Hi, {message.author.name}! So Nice to meet you on this grand day!")
 
     await bot.process_commands(message)
-
-
-
-@bot.tree.command(name="hello")
-async def hello(interaction: discord.Interaction):
-    await interaction.response.send_message(f"Hey {interaction.user.mention}! This is your first slash command!", ephemeral=True)
 
 
 
