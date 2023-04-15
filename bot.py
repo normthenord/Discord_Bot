@@ -22,7 +22,7 @@ EVERY_HOUR = [datetime.time(hour=i, tzinfo=datetime.timezone.utc) for i in range
 
 
 
-intents = discord.Intents.default()
+intents = discord.Intents.all()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)

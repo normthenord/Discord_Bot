@@ -3,11 +3,8 @@ import openai
 import aiohttp
 import os
 
-from dotenv import load_dotenv
-load_dotenv()
-
-GPT_KEY = os.getenv('GPT_API_KEY')
-openai.api_key = GPT_KEY
+import settings
+openai.api_key = settings.GPT_KEY
 
 
 class OpenAI(commands.Cog):
@@ -43,7 +40,7 @@ class OpenAI(commands.Cog):
                 "frequency_penalty": 0,
             }
 
-            self.headers = {"Authorization": f'Bearer {GPT_KEY}'}
+            self.headers = {"Authorization": f'Bearer {settings.GPT_KEY}'}
 
             async  with ctx.typing():
                 async with session.post("https://api.openai.com/v1/chat/completions", json=self.payload, headers=self.headers) as resp:
