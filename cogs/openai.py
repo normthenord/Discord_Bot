@@ -1,13 +1,10 @@
 from discord.ext import commands
 import openai
 import aiohttp
-import os
 
-from dotenv import load_dotenv
-load_dotenv()
+import settings
 
-GPT_KEY = os.getenv('GPT_API_KEY')
-openai.api_key = GPT_KEY
+openai.api_key = settings.GPT_KEY
 
 
 class OpenAI(commands.Cog):
@@ -25,7 +22,7 @@ class OpenAI(commands.Cog):
 
             conversation = [{"role": "system", "content": "I am a friendly chatbot"}]           
             
-            prev_message = list()
+            prev_message = []
             async for msg in ctx.channel.history(limit=15):
                 if msg.content.startswith("!chat ") == True and msg.author.id == ctx.author.id:
                    prev_message.append({'role': 'user', 'content': msg.content[5:]})
@@ -43,7 +40,7 @@ class OpenAI(commands.Cog):
                 "frequency_penalty": 0,
             }
 
-            self.headers = {"Authorization": f'Bearer {GPT_KEY}'}
+            self.headers = {"Authorization": f'Bearer {settings.GPT_KEY}'}
 
             async  with ctx.typing():
                 async with session.post("https://api.openai.com/v1/chat/completions", json=self.payload, headers=self.headers) as resp:

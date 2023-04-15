@@ -8,11 +8,8 @@ import xkcd
 import discord
 from discord.ext import commands, tasks
 
+import settings
 
-from dotenv import load_dotenv
-load_dotenv()
-
-TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = '''NormTheNord's Bot Server'''
 
 BOT_TEST_CHANNEL = 775081202805768223
@@ -22,7 +19,7 @@ EVERY_HOUR = [datetime.time(hour=i, tzinfo=datetime.timezone.utc) for i in range
 
 
 
-intents = discord.Intents.default()
+intents = discord.Intents.all()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
@@ -96,6 +93,6 @@ async def on_message(message):
 async def main():
     async with bot:
         await load_extensions()
-        await bot.start(TOKEN)
+        await bot.start(settings.TOKEN)
 
 asyncio.run(main())

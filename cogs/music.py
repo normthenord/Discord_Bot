@@ -1,15 +1,8 @@
 from discord.ext import commands
 
-import os
-from dotenv import load_dotenv
-load_dotenv()
+import settings
 
 import wavelink
-
-LAVA_PASS = os.getenv("LAVA_PASS")
-
-
-
 
 class Music(commands.Cog):
     vc : wavelink.Player = None
@@ -24,7 +17,7 @@ class Music(commands.Cog):
 
 
         if self.node is None:
-            node: wavelink.Node = wavelink.Node(uri='http://localhost:2333', password=LAVA_PASS)
+            node: wavelink.Node = wavelink.Node(uri='http://localhost:2333', password=settings.LAVA_PASS)
             await wavelink.NodePool.connect(client=self.bot, nodes=[node])
 
         if not ctx.voice_client:  
