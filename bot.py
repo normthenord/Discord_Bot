@@ -1,6 +1,5 @@
 import asyncio
 
-import random
 import os
 import datetime
 
@@ -88,20 +87,8 @@ async def on_message(message):
     if message.author == bot.user:
         print('Message from me')
         return
-    
     print("Receiving message")
       
-
-    if message.content.lower() == "bye":
-        await message.channel.send(commands.bye(message))
-        return
-    
-    split = message.content.split(" ")
-
-    for word in split:
-        if word.lower() == "normthebot":
-            await message.channel.send(f"Hi, {message.author.name}! So Nice to meet you on this grand day!")
-
     await bot.process_commands(message)
 
 
