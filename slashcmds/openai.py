@@ -14,23 +14,24 @@ class AI(app_commands.Group):
     
 
 
-    @app_commands.command(description="Get AI Generated image (1024*1024)")
-    async def image(self, interaction: discord.Interaction, img_prompt: str):
+    @app_commands.command(description="Get AI Generated image (1024*1024) -- max 4 images")
+    async def image(self, interaction: discord.Interaction, img_prompt: str, img_num: int = 1):
         await interaction.response.defer()
 
         async with aiohttp.ClientSession() as session:
             
             response = openai.Image.create(
             prompt=img_prompt,
-            n=1,
+            n=img_num,
             size="1024x1024"
             )
-            image_url = response['data'][0]['url']
 
+            image_urls = []
+            for num in range(img_num):
+                image_urls.append(response['data'][num]['url'])
             
-            await interaction.followup.send(image_url)
-
-
+            for url in image_urls:
+                await interaction.followup.send(url)
 
 
     @app_commands.command(description="Davinci 3")

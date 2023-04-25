@@ -1,6 +1,7 @@
 from discord.ext import commands
 import openai
 import aiohttp
+import os
 
 import settings
 openai.api_key = settings.GPT_KEY
