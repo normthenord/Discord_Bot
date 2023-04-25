@@ -26,12 +26,12 @@ class AI(app_commands.Group):
             size="1024x1024"
             )
 
-            image_urls = []
+            embeds = []
             for num in range(img_num):
-                image_urls.append(response['data'][num]['url'])
+                embeds.append(discord.Embed(url = "https://normthenord.github.io").set_image(url = response['data'][num]['url']))
             
-            for url in image_urls:
-                await interaction.followup.send(url)
+            await interaction.followup.send(embeds=embeds)
+
 
 
     @app_commands.command(description="Davinci 3")
