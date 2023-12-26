@@ -5,6 +5,14 @@ import aiohttp
 import settings
 WEATHER_API_KEY = settings.WEATHER_API_KEY
 
+
+
+def date_swap(dates_list):
+    dates = dates_list.split("-")
+    dates[0], dates[1], dates[2] = dates[1], dates[2], dates[0]
+    return "-".join(dates)
+
+
 class Weather(app_commands.Group):
 
     @app_commands.command(description="Returns temperature (F) in city provided")
@@ -40,14 +48,15 @@ class Weather(app_commands.Group):
                     data = await resp.json()
                     response = f"##  {data['location']['name']}  ##\n"
                     for day in data['forecast']['forecastday']:
-                        response += day['date'] + "\n"
+                        response += date_swap(day['date']) + "\n"
                         response += f"   High: {day['day']['maxtemp_f']}°F\n"
                         response += f"   Low: {day['day']['mintemp_f']}°F\n\n"
 
                     await interaction.followup.send(response)
 
 
-                except:
+                except Exception as error:
+                    print(error)
                     await interaction.followup.send(f"Location ({location}) data unavailable")
                     
 
