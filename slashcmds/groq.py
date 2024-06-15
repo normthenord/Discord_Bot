@@ -33,18 +33,21 @@ class AI(app_commands.Group):
     async def chat(self, interaction: discord.Interaction, prompt: str):
         await interaction.response.defer()
         async with aiohttp.ClientSession() as session:
- 
-            client = groq.Client(api_key=settings.GROQ_Key)
-            self.result = client.chat.completions.create(
-                messages=[{
-                    "role": "user",
-                    "content": prompt,
-                }
-                ],
-                model="mixtral-8x7b-32768",
-            )
+            try:
+                client = groq.Client(api_key=settings.GROQ_KEY)
+                self.result = client.chat.completions.create(
+                    messages=[{
+                        "role": "user",
+                        "content": prompt,
+                    }
+                    ],
+                    model="mixtral-8x7b-32768",
+                )
 
-            await interaction.followup.send(self.result.choices[0].message.content)
+                await interaction.followup.send(self.result.choices[0].message.content)
+            except Exception as e:
+                print(e)
+
 
 async def setup(bot):
     bot.tree.add_command(AI(name="ai", description="Groq commands"))
