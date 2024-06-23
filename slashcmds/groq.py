@@ -43,7 +43,7 @@ class AI(app_commands.Group):
                     ],
                     model="mixtral-8x7b-32768",
                 )
-
+                print(f"Total tokens used: {self.result.usage.total_tokens}")
                 await interaction.followup.send(self.result.choices[0].message.content)
             except Exception as e:
                 print(e)
