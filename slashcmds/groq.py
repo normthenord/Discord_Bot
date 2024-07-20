@@ -28,9 +28,13 @@ class AI(app_commands.Group):
                                  "aspect_ratio": "1:1"}
 
             r = requests.post(url=url, json=payload, headers=header)
-            data = r.json()
-            print(f"Credits remaining: {data['credits_remaining']}")
-            await interaction.followup.send(data['data'][0]['asset_url'])
+            if r.status_code == 200:
+                data = r.json()
+                
+                print(f"Credits remaining: {data['credits_remaining']}")
+                await interaction.followup.send(data['data'][0]['asset_url'])
+            else:
+                await interaction.followup.send("Out of credits")
 
 
     @app_commands.command(description="mixtral-8x7b-32768")
