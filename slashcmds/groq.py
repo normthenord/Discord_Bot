@@ -8,26 +8,30 @@ import groq
 
 import settings
 
+import requests
+LIMEWIRE_KEY = settings.LIMEWIRE_KEY
 
 class AI(app_commands.Group):
 
-    # @app_commands.command(description="Get AI Generated image (1024*1024) -- max 4 images")
-    # async def image(self, interaction: discord.Interaction, img_prompt: str, img_num: int = 1):
-    #     await interaction.response.defer()
+    @app_commands.command(description="Get AI Generated image")
+    async def image(self, interaction: discord.Interaction, img_prompt: str):
+        await interaction.response.defer()
 
-    #     async with aiohttp.ClientSession() as session:
+        async with aiohttp.ClientSession() as session:
+            url = "https://api.limewire.com/api/image/generation"
+            header = {"Content-Type": "application/json",
+                      "X-Api-Version": "v1",
+                      "Accept": "application/json",
+                      "Authorization": f"Bearer {LIMEWIRE_KEY}"}
 
-    #         response = openai.Image.create(
-    #         prompt=img_prompt,
-    #         n=img_num,
-    #         size="1024x1024"
-    #         )
+            payload = payload = {"prompt": img_prompt,
+                                 "aspect_ratio": "1:1"}
 
-    #         embeds = []
-    #         for num in range(img_num):
-    #             embeds.append(discord.Embed(url = "https://normthenord.github.io").set_image(url = response['data'][num]['url']))
+            r = requests.post(url=url, json=payload, headers=header)
+            data = r.json()
+            print(f"Credits remaining: {data['credits_remaining']}")
+            await interaction.followup.send(data['data'][0]['asset_url'])
 
-    #         await interaction.followup.send(embeds=embeds)
 
     @app_commands.command(description="mixtral-8x7b-32768")
     async def chat(self, interaction: discord.Interaction, prompt: str):
