@@ -27,7 +27,6 @@ class AI(app_commands.Group):
                 response_string = data['response']
                 if len(response_string) > 2000:
                     response_string = response_string[:2000]
-                print(response_string)
                 await interaction.followup.send(response_string)
             except requests.RequestException as e:
                 await interaction.followup.send(f"Error: Server probably asleep")
