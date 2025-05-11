@@ -1,10 +1,9 @@
 import discord
 from discord import app_commands
 import aiohttp
-import groq
 import settings
 import requests
-LIMEWIRE_KEY = settings.LIMEWIRE_KEY
+
 
 
 class AI(app_commands.Group):
@@ -17,7 +16,7 @@ class AI(app_commands.Group):
             headers = {"Content-Type": "application/json"}
             payload = {
                 "model": "llama3.2",
-                "prompt": prompt,
+                "prompt": f"{prompt}. Try to make your response 2000 characters or less",
                 "stream": False  # Set to True if you want streaming output
             }
 
@@ -25,7 +24,11 @@ class AI(app_commands.Group):
                 response = requests.post(url, json=payload, headers=headers)
                 response.raise_for_status()
                 data = response.json()
-                await interaction.followup.send(data.get("response", ""))
+                response_string = data['response']
+                if len(response_string) > 2000:
+                    response_string = response_string[:2000]
+                print(response_string)
+                await interaction.followup.send(response_string)
             except requests.RequestException as e:
                 await interaction.followup.send(f"Error: Server probably asleep")
 
