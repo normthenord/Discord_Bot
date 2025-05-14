@@ -62,12 +62,10 @@ class database:
 
         response = requests.post(url, json=payload, headers=headers)
         response.raise_for_status()
-        print(response.text)
         response_string = None
         try:
             data = response.json()
             response_string = data['message']['content']
-            print(response_string)
             if len(response_string) > 2000:
                 response_string = response_string[:2000]
 
