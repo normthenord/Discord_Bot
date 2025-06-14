@@ -46,5 +46,16 @@ class AI(app_commands.Group):
         await interaction.followup.send("Deleted convo")
 
 
+
+    @app_commands.command(description="Delete history from last 'within_minutes'")
+    async def delete_recent(self, interaction: discord.Interaction, within_minutes: int):
+        await interaction.response.defer()
+        try: 
+            self.db.delete_recent_convo(user_id=str(interaction.user.id), within_minutes=within_minutes)
+        except Exception as e:
+            print(e)
+        await interaction.followup.send(f"Deleted {within_minutes} minutes from {interaction.user.name} conversation")
+
+
 async def setup(bot):
     bot.tree.add_command(AI(name="ai", description="AI commands"))

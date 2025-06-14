@@ -96,3 +96,17 @@ class database:
         WHERE user_id = ?
     """, (user_id,))
         self.conn.commit()
+
+
+
+    def delete_recent_convo(self, user_id, within_minutes=60):
+        cutoff = datetime.datetime.now() - datetime.timedelta(minutes=within_minutes)
+
+        self.cursor.execute("""
+        DELETE FROM chat_messages
+        WHERE user_id = ?
+        AND timestamp >= ?
+        AND role != 'system'
+        """, (user_id, cutoff))
+
+        self.conn.commit()
